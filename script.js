@@ -11,7 +11,9 @@ var scoreBtn = document.querySelector(".my-score");
 
 var timerScore = document.getElementById("timer");
 
-var strtCount = 60
+var strtCount = 60;
+var score = 0;
+var currentQue = 0;
 
 var myQuestions = [
     {
@@ -41,16 +43,26 @@ var myQuestions = [
     },
 ];
 
-startBtn.addEventListener("click",  timer());
+startBtn.addEventListener("click", startQuiz());
 
+function startQuiz() {
+    // startPg.style.display = "none";
+    // startpg.remove();
+    playQuiz(myQuestions);
+    timer();
+
+}
 
 function playQuiz(arr) {
-    // startTxt.remove();
-    // startBtn.remove();
-    var que = qQuestion.textContent;
+
+    // myQuestions.forEach
+
+    
 
     for (var i = 0; i < arr.length; i++) {
+        var que = qQuestion.textContent;
         que = arr[i].question;
+
 
     };
 
@@ -62,11 +74,12 @@ function playQuiz(arr) {
 function timer() {
     //always clear interval
     var interval = setInterval(function () {
-        
+
         timerScore.textContent = strtCount;
         strtCount--;
-        // val = val - 1;
-        // val.textContent;
+        if (strtCount === 0) {
+            clearInterval(interval);
+        };
 
     }, 1000);
 }
