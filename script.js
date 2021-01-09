@@ -1,9 +1,10 @@
-var startPg = document.querySelector(".start")
+var startPg = document.querySelector(".start");
 var startTxt = document.querySelector(".start-page");
 var startBtn = document.querySelector(".startBtn");
 var quizPg = document.querySelector(".quizQs");
 var qQuestion = document.querySelector(".quiz-question");
 var qAnswers = document.querySelector(".quiz-answers");
+var nxtQuestion;
 
 var endPg = document.querySelector(".end-quiz");
 var endMsg = document.querySelector(".finish");
@@ -14,6 +15,7 @@ var timerScore = document.getElementById("timer");
 var strtCount = 60;
 var score = 0;
 var currentQue = 0;
+
 
 var myQuestions = [
     {
@@ -43,9 +45,14 @@ var myQuestions = [
     },
 ];
 
-startBtn.addEventListener("click", startQuiz());
+startBtn.addEventListener("click", startQuiz);
 
 function startQuiz() {
+    startPg.classList.add("d-none");
+    quizPg.classList.remove("d-none");
+    nxtQuestion = myQuestions[currentQue];
+    
+
     // startPg.style.display = "none";
     // startpg.remove();
     playQuiz(myQuestions);
@@ -54,23 +61,67 @@ function startQuiz() {
 }
 
 function playQuiz(arr) {
+    // qQuestion.innerText = arr.question;
+    var i = 0;
+    
+    qQuestion.textContent = arr[i].question;
+
+    // var ans = arr.answers;
+    // ans.forEach(ansCre);
+
+    // function ansCre (item) {
+    //     var subAns = document.createElement("button");
+    //     subAns.textContent = item;
+    //     qAnswers.appendChild(subAns);
+    // }
+
+//     function createButt (item) {
+//     var subAns = document.createElement("button");
+//         subAns.className = "btn btn-primary";
+//         subAns.innerText = item;
+//         qAnswers.appendChild(subAns);
+// }
+// createButt();
+
+var ans = arr[i].answers;
+    ans.forEach(function(item){
+        var subAns = document.createElement("button");
+        subAns.className = "btn btn-primary";
+        subAns.innerText = item;
+        qAnswers.appendChild(subAns);
+        subAns.addEventListener("click", disNxtQues);
+
+    });
 
     // myQuestions.forEach
 
     
 
-    for (var i = 0; i < arr.length; i++) {
-        var que = qQuestion.textContent;
-        que = arr[i].question;
+    // for (var i = 0; i < arr.length; i++) {
+    //     var que = qQuestion.textContent;
+    //     que = arr[i].question;
 
 
+    // };
+    
+
+};
+
+function disNxtQues() {
+    quizPg.classList.remove("d-none");
+    currentQue++
+    if(currentQue < myQuestions.length){
+        nxtQuestion = myQuestions[currentQue];
+        playQuiz(myQuestions);
+    } else {
+        currentQue = 0;
+        playQuiz(myQuestions);
     };
 
 };
 
 
-// timer function -- will it work once its included in the playQuiz function??
-// currently working from page load
+// timer function -- now works from startbtn click
 function timer() {
     //always clear interval
     var interval = setInterval(function () {
