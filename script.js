@@ -16,6 +16,7 @@ var timerScore = document.getElementById("timer");
 var strtCount = 60;
 var score = 0;
 var currentQue = 0;
+var i = 0;
 
 
 var myQuestions = [
@@ -97,21 +98,24 @@ function playQuiz(arr) {
 
 function disNxtQues(evt) {
     // evt.target.style.visibility = "hidden";
-    // quizPg.classList.remove("d-none");
+    // quizPg.classList.add("d-none");
     currentQue++
     var i = 0;
     var corAns = myQuestions[i].correctAnswer;
     if (currentQue < myQuestions.length) {
+        
         response(evt.target.innerText === corAns);
         qAnswers.innerHTML = "";
-        
+
         if (currentQue < myQuestions.length) {
             nxtQuestion = myQuestions[currentQue];
             playQuiz(myQuestions);
         } else {
             currentQue = 0;
             playQuiz(myQuestions);
-        };
+        }
+    } else {
+        showResults();
     };
 };
 
@@ -132,13 +136,14 @@ function timer() {
 
 function response(user) {
     if (user) {
-        qAlert.innerText = "Correct!";
+        qAlert.textContent = "Correct!";
     } else {
         qAlert.textContent = "Wrong!";
-         strtCount = strtCount -5;
-         timerScore.innerHTML = strtCount;
+        strtCount = strtCount - 5;
+        timerScore.innerHTML = strtCount;
     };
 };
+
 
 function showResults() { };
 // scoreBtn.addEventListener("click", showResults);
