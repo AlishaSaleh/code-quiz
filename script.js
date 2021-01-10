@@ -4,6 +4,7 @@ var startBtn = document.querySelector(".startBtn");
 var quizPg = document.querySelector(".quizQs");
 var qQuestion = document.querySelector(".quiz-question");
 var qAnswers = document.querySelector(".quiz-answers");
+var qAlert = document.querySelector(".quiz-alert");
 var nxtQuestion;
 
 var endPg = document.querySelector(".end-quiz");
@@ -51,7 +52,7 @@ function startQuiz() {
     startPg.classList.add("d-none");
     quizPg.classList.remove("d-none");
     nxtQuestion = myQuestions[currentQue];
-    
+
 
     // startPg.style.display = "none";
     // startpg.remove();
@@ -63,7 +64,7 @@ function startQuiz() {
 function playQuiz(arr) {
     // qQuestion.innerText = arr.question;
     var i = 0;
-    
+
     qQuestion.textContent = arr[i].question;
 
     // var ans = arr.answers;
@@ -75,16 +76,16 @@ function playQuiz(arr) {
     //     qAnswers.appendChild(subAns);
     // }
 
-//     function createButt (item) {
-//     var subAns = document.createElement("button");
-//         subAns.className = "btn btn-primary";
-//         subAns.innerText = item;
-//         qAnswers.appendChild(subAns);
-// }
-// createButt();
+    //     function createButt (item) {
+    //     var subAns = document.createElement("button");
+    //         subAns.className = "btn btn-primary";
+    //         subAns.innerText = item;
+    //         qAnswers.appendChild(subAns);
+    // }
+    // createButt();
 
-var ans = arr[i].answers;
-    ans.forEach(function(item){
+    var ans = arr[i].answers;
+    ans.forEach(function (item) {
         var subAns = document.createElement("button");
         subAns.className = "btn btn-primary";
         subAns.innerText = item;
@@ -92,32 +93,26 @@ var ans = arr[i].answers;
         subAns.addEventListener("click", disNxtQues);
 
     });
-
-    // myQuestions.forEach
-
-    
-
-    // for (var i = 0; i < arr.length; i++) {
-    //     var que = qQuestion.textContent;
-    //     que = arr[i].question;
-
-
-    // };
-    
-
 };
 
-function disNxtQues() {
-    quizPg.classList.remove("d-none");
+function disNxtQues(evt) {
+    // evt.target.style.visibility = "hidden";
+    // quizPg.classList.remove("d-none");
     currentQue++
-    if(currentQue < myQuestions.length){
-        nxtQuestion = myQuestions[currentQue];
-        playQuiz(myQuestions);
-    } else {
-        currentQue = 0;
-        playQuiz(myQuestions);
+    var i = 0;
+    var corAns = myQuestions[i].correctAnswer;
+    if (currentQue < myQuestions.length) {
+        response(evt.target.innerText === corAns);
+        qAnswers.innerHTML = "";
+        
+        if (currentQue < myQuestions.length) {
+            nxtQuestion = myQuestions[currentQue];
+            playQuiz(myQuestions);
+        } else {
+            currentQue = 0;
+            playQuiz(myQuestions);
+        };
     };
-
 };
 
 
@@ -134,6 +129,16 @@ function timer() {
 
     }, 1000);
 }
+
+function response(user) {
+    if (user) {
+        qAlert.innerText = "Correct!";
+    } else {
+        qAlert.textContent = "Wrong!";
+         strtCount = strtCount -5;
+         timerScore.innerHTML = strtCount;
+    };
+};
 
 function showResults() { };
 // scoreBtn.addEventListener("click", showResults);
